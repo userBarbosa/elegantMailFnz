@@ -1,0 +1,19 @@
+{
+  "name": "elegantmailfnz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "RoutineHandler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/userBarbosa/elegantMailGS.git"
+  },
+  "author": "userBarbosa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/userBarbosa/elegantMailGS/issues"
+  },
+  "homepage": "https://github.com/userBarbosa/elegantMailGS#readme"
+}
