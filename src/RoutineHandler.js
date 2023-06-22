@@ -24,13 +24,16 @@ function executeRoutine() {
         const slidePage = getSlidePage(tempSlide);
 
         const editableTitle = GetConstant(DOMAIN_SLIDE, 'shape.title');
-        const shape = getEditableShape(
-          slidePage,
-          `${editableTitle}_${key.toUpperCase()}`
-        );
 
         for (const [key, value] of Object.entries(item)) {
-          setSlideContents(key, value, shape);
+          const shape = getEditableShape(
+            slidePage,
+            `${editableTitle}_${key.toUpperCase()}`
+          );
+          const wasSet = setSlideContents(key, value, shape);
+          if (!wasSet) {
+            throw new Error('Error at setting text');
+          }
         }
 
         const blob = generateImageBlob(fileId);
@@ -75,14 +78,22 @@ function setSent(form, sheet, indexes) {
 
 function setSlideContents(key, value, shape) {
   try {
-    if (key === 'sender') {
-      if (!value) {
+    switch (key) {
+      case 'sender':
+        if (!value) {
+          value = getNameByEmail(value);
+        } else {
+          value = 'Anônimo';
+        }
+        break;
+      case 'recipient':
         value = getNameByEmail(value);
-      } else {
-        value = 'Anônimo (=';
-      }
-    } else if (key === 'recipient') {
-      value = getNameByEmail(value);
+        break;
+      case 'shouldIdentify':
+        // doesn't need to set any text
+        return true;
+      default:
+        break;
     }
 
     const wasSetTextOnSlide = setTextOnSlide(shape, value);
